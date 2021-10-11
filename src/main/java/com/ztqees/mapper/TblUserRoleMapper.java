@@ -1,0 +1,16 @@
+package com.ztqees.mapper;
+
+import com.ztqees.entity.TblUserRole;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * <p>
+ * 用户角色表 Mapper 接口
+ * </p>
+ *
+ * @author ztqees
+ * @since 2021-10-10
+ */
+public interface TblUserRoleMapper extends BaseMapper<TblUserRole> {
+
+}
