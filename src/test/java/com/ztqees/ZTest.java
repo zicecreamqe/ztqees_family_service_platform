@@ -20,7 +20,7 @@ public class ZTest {
     private MyMapper myMapper;
     @Test
     public void test(){
-        TblUserRecord admin = tblUserRecordMapper.login("admin", "1");
+        TblUserRecord admin = tblUserRecordMapper.login("admin", "c4ca4238a0b923820dcc509a6f75849b");
         System.out.println(admin);
     }
     @Test

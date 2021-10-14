@@ -41,6 +41,7 @@
 
 
     <resultMap id="loginResultMap" type="com.ztqees.entity.TblUserRecord">
+        <result column="id" property="id"/>
         <result column="user_name" property="userName" />
         <result column="user_password" property="userPassword" />
         <result column="user_type" property="userType" />
