@@ -65,4 +65,13 @@ public class LoginController {
         return JSONObject.parseObject(JSONObject.toJSONString(returnObject));
         //return JSONObject.toJSONString(new ReturnObject(userInfo));
     }
+
+    @RequestMapping("/auth/logout")
+    public JSONObject loginOut(HttpSession session){
+        System.out.println("退出登录");
+        //将session搞没（清除session里面的数据）
+        session.invalidate();
+        //这里其实return什么都没有关系，目的只是清除session
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(null)));
+    }
 }
