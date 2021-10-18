@@ -30,7 +30,6 @@ public class EstateServiceImpl implements EstateService {
 
     @Override
     public Integer insertEstate(FcEstate fcEstate) {
-        System.out.println("hahahahahaha"+fcEstate);
         int result = 0;
         QueryWrapper<FcEstate> queryWrapper =new QueryWrapper<>();
         queryWrapper.eq("estate_code", fcEstate.getEstateCode());

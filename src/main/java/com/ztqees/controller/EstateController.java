@@ -28,7 +28,7 @@ public class EstateController {
     }
 
     @RequestMapping("/estate/insertEstate")
-    public JSONObject insertEstate(@RequestBody FcEstate fcEstate){
+    public JSONObject insertEstate(FcEstate fcEstate){
         System.out.println(fcEstate);
         Integer result =estateService.insertEstate(fcEstate);
         if (result == 0){
