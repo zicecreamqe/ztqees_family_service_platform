@@ -2,6 +2,9 @@ package com.ztqees.mapper;
 
 import com.ztqees.entity.TblCompany;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface TblCompanyMapper extends BaseMapper<TblCompany> {
 
+    List<String> selectCompany();
 }

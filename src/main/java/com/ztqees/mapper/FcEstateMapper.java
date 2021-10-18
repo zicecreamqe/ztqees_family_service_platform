@@ -2,6 +2,7 @@ package com.ztqees.mapper;
 
 import com.ztqees.entity.FcEstate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
