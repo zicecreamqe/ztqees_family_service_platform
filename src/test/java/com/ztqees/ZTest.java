@@ -1,6 +1,7 @@
 package com.ztqees;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ztqees.entity.FcBuilding;
 import com.ztqees.entity.FcEstate;
 import com.ztqees.entity.TblUserRecord;
 import com.ztqees.mapper.FcEstateMapper;
@@ -10,6 +11,9 @@ import com.ztqees.mapper.TblUserRecordMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhouqien
@@ -45,4 +49,17 @@ public class ZTest {
         int insert = fcEstateMapper.insert(new FcEstate(1, "11", "11", "", null, null, null, null, 2.0, "", "", "", "", "", null, null, null, null, null, null, "", "0"));
         System.out.println(insert);
     }*/
+
+    @Test
+    public void littleTest(){
+        List<FcBuilding> fcBuildings =new ArrayList<>();
+        for (Integer i = 0; i < 3; i++) {
+            FcBuilding fcBuilding =new FcBuilding();
+            fcBuilding.setBuildingCode("Bzz"+(i+1));
+            fcBuilding.setBuildingName("第"+(i+1)+"号楼ztqees");
+            fcBuilding.setEstateCode("q");
+            fcBuildings.add(fcBuilding);
+        }
+        System.out.println(fcBuildings);
+    }
 }

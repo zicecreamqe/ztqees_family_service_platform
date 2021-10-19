@@ -14,3 +14,10 @@ mybatis-plus:
   type-aliases-package: com.ztqees.entity
   configuration:
     map-underscore-to-camel-case: true
+
+#SQL语句日志打印
+logging:
+  level:
+    com:
+      ztqees:
+        mapper: debug
