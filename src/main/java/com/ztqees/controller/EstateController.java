@@ -1,15 +1,18 @@
 package com.ztqees.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ztqees.entity.FcBuilding;
 import com.ztqees.entity.FcEstate;
+import com.ztqees.entity.FcUnit;
+import com.ztqees.vo.UnitMessage;
 import com.ztqees.returnJson.ReturnObject;
 import com.ztqees.service.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,6 +70,29 @@ public class EstateController {
             return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）楼宇成功")));
         }else {
             return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）楼宇失败")));
+        }
+    }
+
+    @RequestMapping("/estate/selectUnit")
+    public JSONObject selectUnit(@RequestBody UnitMessage[] unitMessages){
+        System.out.println("ztqees selectUnit");
+        System.out.println(unitMessages);
+        List<FcUnit> fcUnitList =new ArrayList<>();
+        for (UnitMessage unitMessage : unitMessages) {
+            List<FcUnit> fcUnits = estateService.selectUnit(unitMessage);
+            fcUnitList.addAll(fcUnits);
+        }
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcUnitList)));
+    }
+
+    @RequestMapping("/estate/updateUnit")
+    public JSONObject updateUnit(FcUnit fcUnit){
+        System.out.println(fcUnit);
+        Integer rows = estateService.updateUnit(fcUnit);
+        if (rows == 1){
+            return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）单元数据成功啦！！")));
+        }else {
+            return JSONObject.parseObject(JSONObject.toJSONString("插入（更新）单元数据失败奥！"));
         }
     }
 }

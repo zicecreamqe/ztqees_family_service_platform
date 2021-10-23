@@ -1,13 +1,16 @@
 package com.ztqees.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ztqees.entity.FcBuilding;
 import com.ztqees.entity.FcEstate;
-import com.ztqees.entity.TblCompany;
+import com.ztqees.entity.FcUnit;
 import com.ztqees.mapper.FcBuildingMapper;
 import com.ztqees.mapper.FcEstateMapper;
+import com.ztqees.mapper.FcUnitMapper;
 import com.ztqees.mapper.TblCompanyMapper;
 import com.ztqees.service.EstateService;
+import com.ztqees.vo.UnitMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +71,26 @@ public class EstateServiceImpl implements EstateService {
     @Override
     public Integer updateBuilding(FcBuilding fcBuilding) {
         return fcBuildingMapper.updateById(fcBuilding);
+    }
+
+    @Autowired
+    private FcUnitMapper fcUnitMapper;
+    @Override
+    public List<FcUnit> selectUnit(UnitMessage unitMessage) {
+        List<FcUnit> fcUnits =new ArrayList<>();
+        for (int i = 0; i < unitMessage.getunitCount(); i++) {
+            FcUnit fcUnit =new FcUnit();
+            fcUnit.setBuildingCode(unitMessage.getBuildingCode());
+            fcUnit.setUnitCode("ztqU-"+(i+1));
+            fcUnit.setUnitName("ztq第"+(i+1)+"单元");
+            fcUnitMapper.insert(fcUnit);
+            fcUnits.add(fcUnit);
+        }
+        return fcUnits;
+    }
+
+    @Override
+    public Integer updateUnit(FcUnit fcUnit) {
+        return fcUnitMapper.updateById(fcUnit);
     }
 }
