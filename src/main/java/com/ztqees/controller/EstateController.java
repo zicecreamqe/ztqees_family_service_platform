@@ -1,18 +1,24 @@
 package com.ztqees.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ztqees.entity.FcBuilding;
+import com.ztqees.entity.FcCell;
 import com.ztqees.entity.FcEstate;
 import com.ztqees.entity.FcUnit;
+import com.ztqees.vo.CellMessage;
 import com.ztqees.vo.UnitMessage;
 import com.ztqees.returnJson.ReturnObject;
 import com.ztqees.service.EstateService;
+import javafx.scene.control.Cell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.plugin2.message.Message;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -92,7 +98,51 @@ public class EstateController {
         if (rows == 1){
             return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）单元数据成功啦！！")));
         }else {
-            return JSONObject.parseObject(JSONObject.toJSONString("插入（更新）单元数据失败奥！"));
+            return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）单元数据失败奥！")));
         }
+    }
+
+    @RequestMapping("/estate/selectCell")
+    public JSONObject selectCell(@RequestBody List<CellMessage> cellMessageList){
+        System.out.println(cellMessageList);
+        List<FcCell> cellList =new ArrayList<>();
+        /**
+         * 各个单元中的插入操作（跟楼宇没有关系）（其实这里我写的有点毛病，应该将下面这个各个单元的插入
+         * 操作的这个for循环也放到service层中去实现才对，controller层中应该没有逻辑才行
+         * 这里比较正确的代码写法可以去看看笔记上面的代码
+         */
+        for (CellMessage cellMessage : cellMessageList) {
+            List<FcCell> cells = estateService.selectCell(cellMessage);
+            cellList.addAll(cells);
+        }
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(cellList)));
+    }
+
+    @RequestMapping("/estate/selectBuildingNameByEstate")
+    public JSONObject selectBuildingNameByEstate(String estateCode){
+        System.out.println("ztqees selectBuildingNameByEstate success");
+        System.out.println(estateCode);
+        List<FcBuilding> fcBuildings = estateService.selectBuildingNameByEstate(estateCode);
+        // 这里的后台他说有问题，还说我已经发现了，但是我还没有发现----------------------------------------
+        System.out.println("fcBuildings" + fcBuildings);
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcBuildings)));
+    }
+
+    @RequestMapping("/estate/selectUnitNameByBuilding")
+    public JSONObject selectUnitNameByBuilding(String buildingCode){
+        System.out.println("ztqees selectUnitNameByBuilding success");
+        System.out.println(buildingCode);
+        List<FcUnit> fcUnits = estateService.selectUnitNameByBuilding(buildingCode);
+        System.out.println("fcUnit----" + fcUnits);
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcUnits)));
+    }
+
+    @RequestMapping("/estate/selectCellNameByUnit")
+    public JSONObject selectCellNameByUnit(String unitCode){
+        System.out.println("ztqees selectCellNameByUnit success");
+        System.out.println(unitCode);
+        List<FcCell> fcCells = estateService.selectCellNameByUnit(unitCode);
+        System.out.println("fcCell-----" + fcCells);
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcCells)));
     }
 }
