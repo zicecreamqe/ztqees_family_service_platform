@@ -30,4 +30,6 @@ public interface EstateService {
     List<FcUnit> selectUnitNameByBuilding(String buildingCode);
 
     List<FcCell> selectCellNameByUnit(String unitCode);
+
+    Integer updateCell(FcCell fcCell);
 }

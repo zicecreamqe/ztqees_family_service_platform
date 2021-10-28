@@ -145,4 +145,15 @@ public class EstateController {
         System.out.println("fcCell-----" + fcCells);
         return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcCells)));
     }
+
+    @RequestMapping("/estate/updateCell")
+    public JSONObject updateCell(FcCell fcCell){
+        System.out.println(fcCell);
+        Integer rows = estateService.updateCell(fcCell);
+        if (rows == 1){
+            return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）房间数据成功啦！！")));
+        }else {
+            return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）房间数据失败奥！")));
+        }
+    }
 }

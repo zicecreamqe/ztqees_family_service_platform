@@ -58,7 +58,7 @@ public class EstateServiceImpl implements EstateService {
         List<FcBuilding> fcBuildings =new ArrayList<>();
         for (Integer i = 0; i < buildingNumber; i++) {
             FcBuilding fcBuilding =new FcBuilding();
-            fcBuilding.setBuildingCode("Bzz"+(i+1));
+            fcBuilding.setBuildingCode(estateCode+"Bzz"+(i+1));
             fcBuilding.setBuildingName("第"+(i+1)+"号楼ztqees");
             fcBuilding.setEstateCode(estateCode);
             fcBuildingMapper.insert(fcBuilding);
@@ -80,7 +80,7 @@ public class EstateServiceImpl implements EstateService {
         for (int i = 0; i < unitMessage.getunitCount(); i++) {
             FcUnit fcUnit =new FcUnit();
             fcUnit.setBuildingCode(unitMessage.getBuildingCode());
-            fcUnit.setUnitCode("ztqU-"+(i+1));
+            fcUnit.setUnitCode(unitMessage.getBuildingCode()+"ztqU-"+(i+1));
             fcUnit.setUnitName("ztq第"+(i+1)+"单元");
             fcUnitMapper.insert(fcUnit);
             fcUnits.add(fcUnit);
@@ -141,5 +141,10 @@ public class EstateServiceImpl implements EstateService {
         QueryWrapper<FcCell> queryWrapper =new QueryWrapper<>();
         queryWrapper.eq("unit_code", unitCode);
         return fcCellMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Integer updateCell(FcCell fcCell) {
+        return fcCellMapper.updateById(fcCell);
     }
 }
