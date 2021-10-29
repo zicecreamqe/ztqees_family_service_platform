@@ -123,7 +123,7 @@ public class EstateController {
         System.out.println("ztqees selectBuildingNameByEstate success");
         System.out.println(estateCode);
         List<FcBuilding> fcBuildings = estateService.selectBuildingNameByEstate(estateCode);
-        // 这里的后台他说有问题，还说我已经发现了，但是我还没有发现----------------------------------------
+        // 这里的后台他说有问题，还说我已经发现了，但是我还没有发现-（好像就是编码重复问题）
         System.out.println("fcBuildings" + fcBuildings);
         return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcBuildings)));
     }
