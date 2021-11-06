@@ -162,6 +162,8 @@ public class EstateServiceImpl implements EstateService {
         int lastNum = 0;
         queryWrapper.eq("estate_code", estateCode);
         List<FcBuilding> fcBuildings = fcBuildingMapper.selectList(queryWrapper);
+        //再搞一个已经存在的数据集合，为了之后能查询出当前添加的数据集
+        List<FcBuilding> fcBuilding2 = fcBuildingMapper.selectList(queryWrapper);
         if(fcBuildings.size() != 0){ // 当批插入的时候里面没有数据的时候
             String lastBuildingName = fcBuildings.get(fcBuildings.size() - 1).getBuildingName();
             String lastStringNum = lastBuildingName.replace("第", "").replace("号楼ztqees", "");
@@ -177,7 +179,12 @@ public class EstateServiceImpl implements EstateService {
             fcBuildingMapper.insert(fcBuilding);
             fcBuildings.add(fcBuilding);
         }
-        return fcBuildings;
+        QueryWrapper<FcBuilding> queryWrapper2 =new QueryWrapper<>();
+        Integer lastId = fcBuilding2.get(fcBuilding2.size() - 1).getId();
+        queryWrapper2.gt("id",lastId);
+        List<FcBuilding> fcBuildingList = fcBuildingMapper.selectList(queryWrapper2);
+        // 这里要是返回fcBuildings那就是返回数据库中所有的楼宇,现在是返回fcBuildingList,为返回添加的楼宇
+        return fcBuildingList;
     }
     // 楼宇数据的更新操作也是重复利用了之前的controller
 
