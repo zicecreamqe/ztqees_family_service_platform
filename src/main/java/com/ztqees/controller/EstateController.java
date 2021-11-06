@@ -82,7 +82,7 @@ public class EstateController {
     @RequestMapping("/estate/selectUnit")
     public JSONObject selectUnit(@RequestBody UnitMessage[] unitMessages){
         System.out.println("ztqees selectUnit");
-        System.out.println(unitMessages);
+        System.out.println(Arrays.toString(unitMessages));
         List<FcUnit> fcUnitList =new ArrayList<>();
         for (UnitMessage unitMessage : unitMessages) {
             List<FcUnit> fcUnits = estateService.selectUnit(unitMessage);
@@ -155,5 +155,38 @@ public class EstateController {
         }else {
             return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject("插入（更新）房间数据失败奥！")));
         }
+    }
+
+    //这里开始批量增加楼宇的后台逻辑编写（首先的一个公司的回显这里没有多做一个controller，是用了以前的controller就完成了功能了）
+    @RequestMapping("/estate/selectEstate")
+    public JSONObject selectEstate(Integer companyId){
+        System.out.println("公司id--"+companyId);
+        List<FcEstate> fcEstateList = estateService.selectEstate(companyId);
+        System.out.println("fcEstateList----"+fcEstateList);
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcEstateList)));
+    }
+
+    //这里在typora笔记中做的更好（他重复利用了之前的selectBuilding的controller优化了代码）
+    @RequestMapping("/estate/BatchSelectBuilding")
+    public JSONObject BatchSelectBuilding(String estateCode,Integer buildingNumber){
+        System.out.println("estateCode--"+estateCode);
+        System.out.println("buildingNumber--"+buildingNumber);
+        List<FcBuilding> fcBuildingList = estateService.BatchSelectBuilding(estateCode,buildingNumber);
+        System.out.println(fcBuildingList);
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcBuildingList)));
+    }
+    // 楼宇数据的更新操作也是重复利用了之前的controller
+
+    // 单元数据的插入和回显（batch_step3）
+    @RequestMapping("/estate/BatchSelectUnit")
+    public JSONObject BatchSelectUnit(@RequestBody UnitMessage[] unitMessages){
+        System.out.println("ztqees BatchSelectUnit");
+        System.out.println(Arrays.toString(unitMessages));
+        List<FcUnit> fcUnitList =new ArrayList<>();
+        for (UnitMessage unitMessage : unitMessages) {
+            List<FcUnit> fcUnits = estateService.BatchSelectUnit(unitMessage);
+            fcUnitList.addAll(fcUnits);
+        }
+        return JSONObject.parseObject(JSONObject.toJSONString(new ReturnObject(fcUnitList)));
     }
 }

@@ -147,4 +147,62 @@ public class EstateServiceImpl implements EstateService {
     public Integer updateCell(FcCell fcCell) {
         return fcCellMapper.updateById(fcCell);
     }
+
+    @Override
+    public List<FcEstate> selectEstate(Integer companyId) {
+        QueryWrapper<FcEstate> queryWrapper =new QueryWrapper<>();
+        queryWrapper.eq("company", companyId);
+        return fcEstateMapper.selectList(queryWrapper);
+    }
+
+    //这里在typora笔记中做的更好（他重复利用了之前的selectBuilding的controller优化了代码）
+    @Override
+    public List<FcBuilding> BatchSelectBuilding(String estateCode, Integer buildingNumber) {
+        QueryWrapper<FcBuilding> queryWrapper =new QueryWrapper<>();
+        int lastNum = 0;
+        queryWrapper.eq("estate_code", estateCode);
+        List<FcBuilding> fcBuildings = fcBuildingMapper.selectList(queryWrapper);
+        if(fcBuildings.size() != 0){ // 当批插入的时候里面没有数据的时候
+            String lastBuildingName = fcBuildings.get(fcBuildings.size() - 1).getBuildingName();
+            String lastStringNum = lastBuildingName.replace("第", "").replace("号楼ztqees", "");
+            System.out.println(lastStringNum+"------");
+            lastNum = Integer.parseInt(lastStringNum);
+            System.out.println(lastNum);
+        }
+        for (int i = 0; i < buildingNumber; i++) {
+            FcBuilding fcBuilding =new FcBuilding();
+            fcBuilding.setBuildingCode(estateCode+"Bzz"+(lastNum+i+1));
+            fcBuilding.setBuildingName("第"+(lastNum+i+1)+"号楼ztqees");
+            fcBuilding.setEstateCode(estateCode);
+            fcBuildingMapper.insert(fcBuilding);
+            fcBuildings.add(fcBuilding);
+        }
+        return fcBuildings;
+    }
+    // 楼宇数据的更新操作也是重复利用了之前的controller
+
+    // 同上面BatchSelectBuilding一样的操作
+    @Override
+    public List<FcUnit> BatchSelectUnit(UnitMessage unitMessage) {
+        QueryWrapper<FcUnit> queryWrapper = new QueryWrapper<>();
+        int lastNum = 0;
+        queryWrapper.eq("building_code", unitMessage.getBuildingCode());
+        List<FcUnit> fcUnits = fcUnitMapper.selectList(queryWrapper);
+        if (fcUnits.size() != 0) { // 当批插入的时候里面没有数据的时候
+            String lastUnitName = fcUnits.get(fcUnits.size() - 1).getUnitName();
+            String lastStringNum = lastUnitName.replace("ztq第", "").replace("单元", "");
+            System.out.println(lastStringNum+"=========");
+            lastNum = Integer.parseInt(lastStringNum);
+            System.out.println(lastNum);
+        }
+        for (int i = 0; i < unitMessage.getunitCount(); i++) {
+            FcUnit fcUnit =new FcUnit();
+            fcUnit.setBuildingCode(unitMessage.getBuildingCode());
+            fcUnit.setUnitCode(unitMessage.getBuildingCode()+"ztqU-"+(lastNum+i+1));
+            fcUnit.setUnitName("ztq第"+(lastNum+i+1)+"单元");
+            fcUnitMapper.insert(fcUnit);
+            fcUnits.add(fcUnit);
+        }
+        return fcUnits;
+    }
 }

@@ -32,4 +32,10 @@ public interface EstateService {
     List<FcCell> selectCellNameByUnit(String unitCode);
 
     Integer updateCell(FcCell fcCell);
+
+    List<FcEstate> selectEstate(Integer companyId);
+
+    List<FcBuilding> BatchSelectBuilding(String estateCode, Integer buildingNumber);
+
+    List<FcUnit> BatchSelectUnit(UnitMessage unitMessage);
 }
